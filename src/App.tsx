@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,11 +17,15 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 // Componente protetor de rotas
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
-    return <div className="flex items-center justify-center h-screen">Carregando...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Carregando...
+      </div>
+    );
   }
-  
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
@@ -38,50 +41,68 @@ const AppWithProviders = () => (
       <Routes>
         {/* Rotas públicas */}
         <Route path="/login" element={<Login />} />
-        
+
         {/* Rotas protegidas */}
-        <Route path="/" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Index />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/sales" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Sales />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/customers" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Customers />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/inventory" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Inventory />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/reports" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Reports />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/settings" element={
-          <ProtectedRoute>
-            <DashboardLayout>
-              <Settings />
-            </DashboardLayout>
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Index />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sales"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Sales />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/customers"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Customers />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/inventory"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Inventory />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Reports />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Settings />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>
