@@ -52,6 +52,57 @@ serve(async (req) => {
         throw new Error("Tipo de notificação inválido");
     }
 
+    // Verificar se o usuário tem notificações habilitadas para este tipo
+    const userEmail = email;
+
+    // Buscar o usuário pelo email
+    const { data: userData, error: userError } = await supabase
+      .from("auth.users")
+      .select("id")
+      .eq("email", userEmail)
+      .single();
+
+    if (userError) {
+      console.error("Erro ao buscar usuário:", userError);
+      throw new Error("Usuário não encontrado");
+    }
+
+    // Verificar configurações de notificação do usuário
+    const notificationType =
+      type === "new_sale"
+        ? "new_sales"
+        : type === "low_stock"
+        ? "low_stock"
+        : "weekly_reports";
+
+    const { data: settingsData, error: settingsError } = await supabase
+      .from("user_settings")
+      .select("notifications")
+      .eq("user_id", userData.id)
+      .single();
+
+    if (settingsError) {
+      console.error(
+        "Erro ao buscar configurações de notificação:",
+        settingsError
+      );
+      throw new Error("Configurações de notificação não encontradas");
+    }
+
+    // Se o usuário não tiver notificações habilitadas para este tipo, não envia
+    if (!settingsData.notifications[notificationType]) {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "Notificação ignorada (desabilitada pelo usuário)",
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        }
+      );
+    }
+
     // Enviar e-mail através do Supabase
     const { error } = await supabase.from("email_queue").insert([
       {

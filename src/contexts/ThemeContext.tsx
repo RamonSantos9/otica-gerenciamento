@@ -1,5 +1,10 @@
-
-import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
 import { useAuth } from "./AuthContext";
 import { getUserSettings, saveUserSettings } from "@/services/settingsService";
 
@@ -14,7 +19,7 @@ const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
   setTheme: () => {},
   language: "pt-BR",
-  setLanguage: () => {}
+  setLanguage: () => {},
 });
 
 export const useTheme = () => useContext(ThemeContext);
@@ -36,7 +41,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         if (settings) {
           setThemeState(settings.dark_mode ? "dark" : "light");
           setLanguageState(settings.language);
-          
+
           // Aplicar tema ao documento
           if (settings.dark_mode) {
             document.documentElement.classList.add("dark");
@@ -53,21 +58,21 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   // Função para alterar o tema
   const setTheme = async (newTheme: "light" | "dark") => {
     setThemeState(newTheme);
-    
+
     // Aplicar tema ao documento
     if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-    
+
     // Salvar no banco de dados se o usuário estiver logado
     if (user?.id) {
       const settings = await getUserSettings(user.id);
       if (settings) {
         await saveUserSettings({
           ...settings,
-          dark_mode: newTheme === "dark"
+          dark_mode: newTheme === "dark",
         });
       }
     }
@@ -76,14 +81,14 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   // Função para alterar o idioma
   const setLanguage = async (newLanguage: string) => {
     setLanguageState(newLanguage);
-    
+
     // Salvar no banco de dados se o usuário estiver logado
     if (user?.id) {
       const settings = await getUserSettings(user.id);
       if (settings) {
         await saveUserSettings({
           ...settings,
-          language: newLanguage
+          language: newLanguage,
         });
       }
     }

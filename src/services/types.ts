@@ -1,4 +1,3 @@
-
 // Types for the data models used across the application
 
 // Customer type
@@ -41,7 +40,7 @@ export type Sale = {
   customer_id: string;
   date: string;
   items: SaleItem[];
-  status: 'pendente' | 'completo' | 'cancelado';
+  status: "pendente" | "completo" | "cancelado";
   total: number;
   paymentMethod: string;
 };

@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Sale } from "./types";
 import { formatSaleFromSupabase } from "./utils";
@@ -8,12 +7,12 @@ import { formatSaleFromSupabase } from "./utils";
 // Get all sales
 export const getSales = async (): Promise<Sale[]> => {
   const { data, error } = await supabase
-    .from('sales')
-    .select('*')
-    .order('date', { ascending: false });
+    .from("sales")
+    .select("*")
+    .order("date", { ascending: false });
 
   if (error) {
-    console.error('Erro ao buscar vendas:', error);
+    console.error("Erro ao buscar vendas:", error);
     return [];
   }
 
@@ -24,13 +23,13 @@ export const getSales = async (): Promise<Sale[]> => {
 // Get sale by ID
 export const getSaleById = async (id: string): Promise<Sale | undefined> => {
   const { data, error } = await supabase
-    .from('sales')
-    .select('*')
-    .eq('id', id)
+    .from("sales")
+    .select("*")
+    .eq("id", id)
     .single();
 
   if (error) {
-    console.error('Erro ao buscar venda:', error);
+    console.error("Erro ao buscar venda:", error);
     return undefined;
   }
 
@@ -38,10 +37,10 @@ export const getSaleById = async (id: string): Promise<Sale | undefined> => {
 };
 
 // Add a new sale
-export const addSale = async (sale: Omit<Sale, 'id'>): Promise<Sale | null> => {
+export const addSale = async (sale: Omit<Sale, "id">): Promise<Sale | null> => {
   // Primeiro insere a venda
   const { data: saleData, error: saleError } = await supabase
-    .from('sales')
+    .from("sales")
     .insert({
       customer_id: sale.customer_id,
       date: sale.date,
@@ -53,13 +52,13 @@ export const addSale = async (sale: Omit<Sale, 'id'>): Promise<Sale | null> => {
     .single();
 
   if (saleError) {
-    console.error('Erro ao adicionar venda:', saleError);
+    console.error("Erro ao adicionar venda:", saleError);
     return null;
   }
 
   // Se houver itens, insere cada um
   if (sale.items && sale.items.length > 0) {
-    const saleItems = sale.items.map(item => ({
+    const saleItems = sale.items.map((item) => ({
       sale_id: saleData.id,
       product_id: item.productId,
       product_name: item.productName,
@@ -69,11 +68,11 @@ export const addSale = async (sale: Omit<Sale, 'id'>): Promise<Sale | null> => {
     }));
 
     const { error: itemsError } = await supabase
-      .from('sale_items')
+      .from("sale_items")
       .insert(saleItems);
 
     if (itemsError) {
-      console.error('Erro ao adicionar itens da venda:', itemsError);
+      console.error("Erro ao adicionar itens da venda:", itemsError);
       // Não retornamos null aqui porque a venda já foi criada
     }
   }
@@ -85,13 +84,13 @@ export const addSale = async (sale: Omit<Sale, 'id'>): Promise<Sale | null> => {
 // Get recent sales with optional limit
 export const getRecentSales = async (limit: number = 5): Promise<Sale[]> => {
   const { data, error } = await supabase
-    .from('sales')
-    .select('*')
-    .order('date', { ascending: false })
+    .from("sales")
+    .select("*")
+    .order("date", { ascending: false })
     .limit(limit);
 
   if (error) {
-    console.error('Erro ao buscar vendas recentes:', error);
+    console.error("Erro ao buscar vendas recentes:", error);
     return [];
   }
 
