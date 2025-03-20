@@ -9,8 +9,6 @@ O **Ótica Gerenciamento** é um sistema web completo para administração de ó
 
 ## 1. Visão Geral
 
-<<<<<<< HEAD
-
 O **Ótica Gerenciamento** foi criado para otimizar processos operacionais de uma ótica, oferecendo controle sobre vendas, estoque, cadastro de clientes e geração de relatórios. Seu principal objetivo é melhorar a tomada de decisão por meio de análises detalhadas e assegurar a integridade e segurança dos dados. O sistema integra diversas funcionalidades essenciais, desde o cadastro de clientes até a emissão de extratos financeiros em PDF.
 Este repositório contém um sistema web completo para gerenciamento de óticas, incluindo administração de vendas, estoque, clientes e relatórios. Ótica Gerenciamento foi desenvolvido para fins de estudo e experimentação, demonstrando conceitos modernos de desenvolvimento web, integração com banco de dados e boas práticas de arquitetura.
 
