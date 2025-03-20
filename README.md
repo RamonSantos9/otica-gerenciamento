@@ -107,7 +107,3 @@ Sinta-se livre para abrir issues ou enviar pull requests. Feedbacks, correções
 Licença
 Este projeto está licenciado sob a MIT License - veja o arquivo LICENSE para mais detalhes.
 
-## **Contato**
-
-**Autor: Ramon Santos** |
-**Demonstração:** [https://otica-gerenciamento.vercel.app](https://otica-gerenciamento.vercel.app)
